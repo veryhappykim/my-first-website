@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>AQI CALCULATOR</title>
+        <script>
+            function aqi_calc() {
+                var apd = document.getElementById("apd").value;
+                var co_2 = document.getElementById("co_2").value;
+                var voc = document.getElementById("voc").value;
+                var aqi_apd;
+                var aqi_co_2;
+                var aqi_voc;
+                var coeff_1;
+                var coeff_2;
+                var bp_lo;
+
+                if(apd >= 0 && apd < 16){
+                    coeff_1 = 1.33333;
+                    coeff_2 = 5;
+                    bp_lo = 0;
+                    aqi_apd = coeff_1*(apd-bp_lo)+coeff_2;
+                }else if(apd >= 16 && apd < 36){
+                    coeff_1 = 1;
+                    coeff_2 = 26;
+                    bp_lo = 16;
+                    aqi_apd = coeff_1*(apd-bp_lo)+coeff_2;
+                }else if(apd >= 36 && apd < 51){
+                    coeff_1 = 1.35714;
+                    coeff_2 = 46;
+                    bp_lo = 36;
+                    aqi_apd = coeff_1*(apd-bp_lo)+coeff_2;
+                }else if(apd >= 51 && apd < 81){
+                    coeff_1 = 0.65517;
+                    coeff_2 = 66;
+                    bp_lo = 51;
+                    aqi_apd = coeff_1*(apd-bp_lo)+coeff_2;
+                }else if(apd >= 81 && apd < 501){
+                    coeff_1 = 0.04534;
+                    coeff_2 = 86;
+                    bp_lo = 81;
+                    aqi_apd = coeff_1*(apd-bp_lo)+coeff_2;
+                }else {
+                    alert("ERROR: wrong data");
+                }
+
+                if(co_2 >= 400 && co_2 < 451){
+                    coeff_1 = 0.4;
+                    coeff_2 = 7;
+                    bp_lo = 400;
+                    aqi_co_2 = coeff_1*(co_2-bp_lo)+coeff_2;
+                }else if(co_2 >= 451 && apd < 701){
+                    coeff_1 = 0.0763;
+                    coeff_2 = 28;
+                    bp_lo = 451;
+                    aqi_co_2 = coeff_1*(co_2-bp_lo)+coeff_2;
+                }else if(co_2 >= 701 && co_2 < 1001){
+                    coeff_1 = 0.06354;
+                    coeff_2 = 48;
+                    bp_lo = 701;
+                    aqi_co_2 = coeff_1*(co_2-bp_lo)+coeff_2;
+                }else if(co_2 >= 1001 && co_2 < 3001){
+                    coeff_1 = 0.0095;
+                    coeff_2 = 68;
+                    bp_lo = 1001;
+                    aqi_co_2 = coeff_1*(co_2-bp_lo)+coeff_2;
+                }else if(co_2 >= 3001 && co_2 < 5001){
+                    coeff_1 = 0.0095;
+                    coeff_2 = 88;
+                    bp_lo = 3001;
+                    aqi_co_2 = coeff_1*(co_2-bp_lo)+coeff_2;
+                }else {
+                    alert("ERROR: wrong data");
+                }
+                
+                if(voc >= 0 && voc < 0.221){
+                    coeff_1 = 90.909;
+                    coeff_2 = 8;
+                    bp_lo = 0;
+                    aqi_voc = coeff_1*(voc-bp_lo)+coeff_2;
+                }else if(voc >= 0.221 && voc < 0.401){
+                    coeff_1 = 106.14;
+                    coeff_2 = 29;
+                    bp_lo = 0.221;
+                    aqi_voc = coeff_1*(voc-bp_lo)+coeff_2;
+                }else if(voc >= 0.401 && apd < 0.661){
+                    coeff_1 = 73.359;
+                    coeff_2 = 49;
+                    bp_lo = 0.401;
+                    aqi_voc = coeff_1*(voc-bp_lo)+coeff_2;
+                }else if(voc >= 0.661 && apd < 2.201){
+                    coeff_1 = 12.345;
+                    coeff_2 = 69;
+                    bp_lo = 0.661;
+                    aqi_voc = coeff_1*(voc-bp_lo)+coeff_2;
+                }else if(voc >= 2.201 && apd < 9.1){
+                    coeff_1 = 2.7945;
+                    coeff_2 = 89;
+                    bp_lo = 2.201;
+                    aqi_voc = coeff_1*(voc-bp_lo)+coeff_2;
+                }else {
+                    alert("ERROR: wrong data");
+                }
+                document.getElementById("aqi_apd_calc").value = parseInt(aqi_apd);
+                document.getElementById("aqi_co_2_calc").value = parseInt(aqi_co_2);
+                document.getElementById("aqi_voc_calc").value = parseInt(aqi_voc);
+
+                var aqi_arr = [parseInt(aqi_apd), parseInt(aqi_co_2), parseInt(aqi_voc)];
+                var aqi_avg = Math.max.apply(null, aqi_arr);
+                document.getElementById("aqi_avg_calc").value = aqi_avg;
+            }
+
+            function reset(){
+                document.getElementById("apd").value = "";
+                document.getElementById("co_2").value = "";
+                document.getElementById("voc").value = "";
+                document.getElementById("aqi_apd_calc").value = "";
+                document.getElementById("aqi_co_2_calc").value = "";
+                document.getElementById("aqi_voc_calc").value = "";
+                document.getElementById("aqi_avg_calc").value = "";
+            }
+        </script>
+    </head>
+    <body>
+        PM2.5:  
+        <input type="text" id="apd">
+        &nbsp;&nbsp;
+        AQI_PM2.5:
+        <input type="text" id="aqi_apd_calc"><br>
+        CO2: 
+        <input type="text" id="co_2">
+        &nbsp;&nbsp;
+        AQI_CO2:
+        <input type="text" id="aqi_co_2_calc"><br>
+        VOC: 
+        <input type="text" id="voc">
+        &nbsp;&nbsp;
+        AQI_VOC:
+        <input type="text" id="aqi_voc_calc"><br>
+        AQI_avg: 
+        <input type="text" id="aqi_avg_calc">
+        <br><br>
+        <input type="button" value="Calculate" onclick="aqi_calc()">
+        <input type="button" value="Reset" onclick="reset()">
+    </body>
